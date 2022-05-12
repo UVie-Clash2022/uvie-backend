@@ -1,4 +1,4 @@
-module uvie-backend
+module github.com/UVie-Clash2022/uvie-backend
 
 go 1.18
 
