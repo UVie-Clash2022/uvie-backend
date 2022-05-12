@@ -4,12 +4,12 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/UVie-Clash2022/uvie-backend/server"
 	"github.com/aws/aws-lambda-go/events"
 	"io/ioutil"
 	"net/http"
 	"net/url"
 	"os"
-	"uvie-backend/server"
 )
 
 var MOVIEDB_API_KEY = os.Getenv("MOVIEDB_API_KEY")
