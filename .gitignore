@@ -15,8 +15,8 @@
 # vendor/
 
 # Local Netlify folder
-.netlify
+#.netlify
 
-.hugo_build.lock
+#.hugo_build.lock
 .idea
 uvie-backend
