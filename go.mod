@@ -3,7 +3,7 @@ module github.com/UVie-Clash2022/uvie-backend
 go 1.18
 
 require (
-	github.com/aws/aws-lambda-go v1.31.1
+	github.com/aws/aws-lambda-go v1.18.0
 	github.com/go-playground/validator/v10 v10.7.0
 	go.mongodb.org/mongo-driver v1.9.1
 )
@@ -24,5 +24,4 @@ require (
 	golang.org/x/sync v0.0.0-20190911185100-cd5d95a43a6e // indirect
 	golang.org/x/sys v0.0.0-20210423082822-04245dca01da // indirect
 	golang.org/x/text v0.3.7 // indirect
-	gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776 // indirect
 )
