@@ -21,11 +21,13 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 
 	if request.HTTPMethod == "GET" {
 		username := request.QueryStringParameters["username"]
-		if username == "" {
-			return server.Get400ServerError("username is empty")
+		password := request.QueryStringParameters["password"]
+
+		if username == "" || password == "" {
+			return server.Get400ServerError("Invalid username or password")
 		}
 
-		return GetUser(username)
+		return LoginUser(username, password)
 	}
 
 	return &events.APIGatewayProxyResponse{

@@ -14,7 +14,7 @@ import (
 	"time"
 )
 
-func GetUser(username string) (*events.APIGatewayProxyResponse, error) {
+func LoginUser(username string, password string) (*events.APIGatewayProxyResponse, error) {
 	userCollection := database.GetCollection("users")
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
@@ -22,6 +22,10 @@ func GetUser(username string) (*events.APIGatewayProxyResponse, error) {
 	var user models.User
 	if err := userCollection.FindOne(ctx, bson.M{"username": username}).Decode(&user); err != nil {
 		return server.Get400ServerError(err.Error())
+	}
+
+	if user.Password != password {
+		return server.Get400ServerError("Invalid username or password")
 	}
 
 	jsonUser, err := json.Marshal(user)
