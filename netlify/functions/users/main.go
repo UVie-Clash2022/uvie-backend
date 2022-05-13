@@ -30,6 +30,20 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 		} else {
 			return server.Get400ServerError("Cannot process request")
 		}
+	} else if request.HTTPMethod == "PUT" {
+		var excludeMovieRequest models.ExcludeMovieRequest
+		err := json.Unmarshal([]byte(request.Body), &excludeMovieRequest)
+		if err != nil {
+			return server.Get500ServerError(err)
+		}
+
+		return ExcludeMovieForUser(excludeMovieRequest)
+	} else if request.HTTPMethod == "GET" {
+		subPaths := strings.Split(request.Path, "/")
+		username := subPaths[len(subPaths)-2]
+		fmt.Println("username: " + username)
+
+		return GetExcludedMoviesForUser(username)
 	}
 
 	return &events.APIGatewayProxyResponse{
