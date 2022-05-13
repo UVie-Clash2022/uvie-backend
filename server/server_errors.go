@@ -1,6 +1,7 @@
 package server
 
 import (
+	"encoding/json"
 	"github.com/aws/aws-lambda-go/events"
 )
 
@@ -13,9 +14,14 @@ func Get500ServerError(err error) (*events.APIGatewayProxyResponse, error) {
 }
 
 // Get400ServerError Bad request error
-func Get400ServerError(msg string) (*events.APIGatewayProxyResponse, error) {
+func Get400ServerError(errorMessage string) (*events.APIGatewayProxyResponse, error) {
+	responseMap := map[string]string{
+		"errorMessage": errorMessage,
+	}
+	jsonResponse, _ := json.Marshal(responseMap)
+
 	return &events.APIGatewayProxyResponse{
 		StatusCode: 400,
-		Body:       msg,
+		Body:       string(jsonResponse),
 	}, nil
 }
