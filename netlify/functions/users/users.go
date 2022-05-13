@@ -28,6 +28,7 @@ func LoginUser(username string, password string) (*events.APIGatewayProxyRespons
 		return server.Get400ServerError("Invalid username or password")
 	}
 
+	user.Password = "" //to remove from response
 	jsonUser, err := json.Marshal(user)
 	if err != nil {
 		return server.Get500ServerError(err)
