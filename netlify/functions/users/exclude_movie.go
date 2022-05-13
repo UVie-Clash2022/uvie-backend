@@ -61,7 +61,15 @@ func GetExcludedMoviesForUser(username string) (*events.APIGatewayProxyResponse,
 		return server.Get400ServerError(err.Error())
 	}
 
-	jsonResponse, err := json.Marshal(user.ExcludedMovies)
+	i := 0
+	excludedMovieIds := make([]string, len(user.ExcludedMovies))
+	for movieId := range user.ExcludedMovies {
+		excludedMovieIds[i] = movieId
+		i++
+	}
+
+	response := models.ExcludedMoviesResponse{Username: username, ExcludedMovieIds: excludedMovieIds}
+	jsonResponse, err := json.Marshal(response)
 
 	if err != nil {
 		return server.Get500ServerError(err)
