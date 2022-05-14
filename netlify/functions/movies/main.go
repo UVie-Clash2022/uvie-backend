@@ -6,6 +6,7 @@ import (
 	"github.com/UVie-Clash2022/uvie-backend/server"
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"strconv"
 	"strings"
 )
 
@@ -17,6 +18,18 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 		if method == "movie-likes" {
 			username := subPaths[len(subPaths)-1]
 			return GetMoviesLikedForUser(username)
+		} else if method == "recommend" {
+			username := subPaths[len(subPaths)-1]
+			pageQueryParam := request.QueryStringParameters["page"]
+			if pageQueryParam == "" {
+				return RecommendMovies(username, 1)
+			} else {
+				page, err := strconv.Atoi(pageQueryParam)
+				if err != nil {
+					return server.Get400ServerError(err.Error())
+				}
+				return RecommendMovies(username, page)
+			}
 		}
 
 		return GetMovieData(request)
