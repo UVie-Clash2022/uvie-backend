@@ -121,6 +121,7 @@ func SaveLikedMovieForUser(request models.LikedMovieRequest) (*events.APIGateway
 
 	return &events.APIGatewayProxyResponse{
 		StatusCode:      200,
+		Headers:         server.BuildHeaders(),
 		IsBase64Encoded: false,
 	}, nil
 }
@@ -182,6 +183,7 @@ func RemoveLikedMovieForUser(request models.LikedMovieRequest) (*events.APIGatew
 
 	return &events.APIGatewayProxyResponse{
 		StatusCode:      200,
+		Headers:         server.BuildHeaders(),
 		IsBase64Encoded: false,
 	}, nil
 }

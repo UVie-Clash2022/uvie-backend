@@ -47,6 +47,7 @@ func ExcludeMovieForUser(request models.ExcludeMovieRequest) (*events.APIGateway
 
 	return &events.APIGatewayProxyResponse{
 		StatusCode:      200,
+		Headers:         server.BuildHeaders(),
 		IsBase64Encoded: false,
 	}, nil
 }

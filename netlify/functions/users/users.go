@@ -36,7 +36,7 @@ func LoginUser(username string, password string) (*events.APIGatewayProxyRespons
 
 	return &events.APIGatewayProxyResponse{
 		StatusCode:      200,
-		Headers:         map[string]string{"Content-Type": "application/json"},
+		Headers:         server.BuildHeaders(),
 		Body:            string(jsonUser),
 		IsBase64Encoded: false,
 	}, nil
@@ -80,7 +80,7 @@ func SignUpUser(username string, password string) (*events.APIGatewayProxyRespon
 
 	return &events.APIGatewayProxyResponse{
 		StatusCode:      200,
-		Headers:         map[string]string{"Content-Type": "application/json"},
+		Headers:         server.BuildHeaders(),
 		Body:            string(jsonResponse),
 		IsBase64Encoded: false,
 	}, nil
