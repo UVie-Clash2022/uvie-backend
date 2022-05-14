@@ -158,11 +158,14 @@ func RemoveLikedMovieForUser(request models.LikedMovieRequest) (*events.APIGatew
 	if idxToRemove >= len(userMoviesLiked.Liked) {
 		return server.Get400ServerError(fmt.Sprintf("The provided movieId was not found in the user's liked list."))
 	}
-
-	userMoviesLiked.Liked = append(userMoviesLiked.Liked[:idxToRemove], userMoviesLiked.Liked[idxToRemove+1:]...)
+	if idxToRemove == 0 {
+		userMoviesLiked.Liked = userMoviesLiked.Liked[:0]
+	} else {
+		userMoviesLiked.Liked = append(userMoviesLiked.Liked[:idxToRemove], userMoviesLiked.Liked[idxToRemove+1:]...)
+	}
 
 	//todo: should we do below: update currentFavorite movie if the removed liked movie is the currentFavorite?
-	if userMoviesLiked.CurrentFavorite.ID == movieIdToDelete {
+	if userMoviesLiked.CurrentFavorite.ID == movieIdToDelete && len(userMoviesLiked.Liked) > 0 {
 		userMoviesLiked.CurrentFavorite = userMoviesLiked.Liked[len(userMoviesLiked.Liked)-1]
 	}
 
