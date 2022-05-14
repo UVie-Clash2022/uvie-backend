@@ -18,6 +18,7 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 		if method == "movie-likes" {
 			username := subPaths[len(subPaths)-1]
 			return GetMoviesLikedForUser(username)
+
 		} else if method == "recommend" {
 			username := subPaths[len(subPaths)-1]
 			pageQueryParam := request.QueryStringParameters["page"]
@@ -33,6 +34,7 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 		}
 
 		return GetMovieData(request)
+
 	} else if request.HTTPMethod == "PUT" {
 		var movieLikedRequest models.LikedMovieRequest
 		err := json.Unmarshal([]byte(request.Body), &movieLikedRequest)
@@ -40,6 +42,15 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 			return server.Get500ServerError(err)
 		}
 		return SaveLikedMovieForUser(movieLikedRequest)
+
+	} else if request.HTTPMethod == "DELETE" {
+		var removeLikedMovieRequest models.LikedMovieRequest
+		err := json.Unmarshal([]byte(request.Body), &removeLikedMovieRequest)
+		if err != nil {
+			return server.Get500ServerError(err)
+		}
+
+		return RemoveLikedMovieForUser(removeLikedMovieRequest)
 	}
 
 	return &events.APIGatewayProxyResponse{
